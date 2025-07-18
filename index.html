@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Heroicons CDN -->
+    <script src="https://unpkg.com/heroicons@2.1.3/24/outline/index.js"></script>
+
+    <style>
+        /* Smooth scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Basic styling for the body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #141414;
+            color: #e5e5e5;
+        }
+        /* Transition for the header background */
+        #main-nav {
+            transition: background-color 0.5s ease;
+        }
+        /* Gradient for the hero section overlay */
+        .hero-gradient {
+            background-image: linear-gradient(to top, rgba(20, 20, 20, 1) 10%, rgba(20, 20, 20, 0) 60%, rgba(20, 20, 20, 1) 100%);
+        }
+        /* Animation for modal */
+        .modal-enter {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-leave {
+            animation: fadeOut 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+    </style>
+</head>
+<body class="bg-[#141414]">
+
+    <!-- Header -->
+    <header id="main-nav" class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 md:px-16 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-8">
+            <!-- Netflix Logo -->
+            <h1 class="text-2xl md:text-3xl font-bold text-red-600 cursor-pointer">NETFLIX</h1>
+            <!-- Primary Navigation -->
+            <nav class="hidden lg:flex items-center space-x-4">
+                <a href="#" class="text-white font-semibold text-sm hover:text-gray-300 transition">Home</a>
+                <a href="#" class="text-white font-semibold text-sm hover:text-gray-300 transition">TV Shows</a>
+                <a href="#" class="text-white font-semibold text-sm hover:text-gray-300 transition">Movies</a>
+                <a href="#" class="text-white font-semibold text-sm hover:text-gray-300 transition">New & Popular</a>
+                <a href="#" class="text-white font-semibold text-sm hover:text-gray-300 transition">My List</a>
+            </nav>
+        </div>
+        <div class="flex items-center space-x-4">
+            <!-- Search Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white cursor-pointer hover:text-gray-300 transition">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <!-- Bell Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white cursor-pointer hover:text-gray-300 transition">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+            </svg>
+            <!-- Profile Dropdown -->
+            <div class="relative">
+                <img src="https://i.imgur.com/kF3D2wG.png" alt="User Profile" class="w-8 h-8 rounded-md cursor-pointer" onerror="this.onerror=null;this.src='https://placehold.co/40x40/F87171/FFFFFF?text=U';">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-[56.25vw] min-h-[400px] max-h-[800px] w-full">
+            <img id="hero-image" src="https://i.imgur.com/7o5wQ7d.jpg" alt="Hero Movie Banner" class="absolute top-0 left-0 w-full h-full object-cover -z-10" onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/000000/FFFFFF?text=Hero+Banner';">
+            <div class="hero-gradient absolute inset-0"></div>
+            <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center px-4 sm:px-8 md:px-16">
+                <div class="max-w-xl">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white" id="hero-title">Movie Title</h2>
+                    <p class="text-sm sm:text-base md:text-lg text-white mt-4 line-clamp-3" id="hero-description">
+                        This is a captivating description of the featured movie or show. It's designed to grab your attention and make you want to watch it right away. Explore the world of drama, action, and suspense.
+                    </p>
+                    <div class="flex space-x-3 mt-6">
+                        <button id="hero-play-btn" class="flex items-center justify-center bg-white text-black font-bold rounded-md px-6 py-2 text-lg hover:bg-gray-200 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-2">
+                                <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.647c1.295.742 1.295 2.545 0 3.286L7.279 20.99c-1.25.717-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                            </svg>
+                            Play
+                        </button>
+                        <button id="hero-info-btn" class="flex items-center justify-center bg-gray-500 bg-opacity-70 text-white font-bold rounded-md px-6 py-2 text-lg hover:bg-opacity-50 transition">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                            </svg>
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Movie Rows Container -->
+        <div id="movie-rows-container" class="px-4 sm:px-8 md:px-16 py-8 space-y-8 -mt-24 relative z-10">
+            <!-- Movie rows will be injected here by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="movie-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden">
+        <div id="modal-content" class="bg-[#141414] rounded-lg w-11/12 md:w-3/4 lg:w-1/2 max-w-4xl overflow-hidden relative modal-enter">
+            <button id="close-modal" class="absolute top-4 right-4 text-white z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="relative">
+                <img id="modal-image" src="" class="w-full h-auto" alt="Movie Poster" onerror="this.onerror=null;this.src='https://www.bing.com/images/search?view=detailV2&ccid=S4H9ElBu&id=07D9AD6865D80F96F55CF8E8D095BC864C37261C&thid=OIP.S4H9ElBucdIiWmD45a9sMAHaK-&mediaurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.4b81fd12506e71d2225a60f8e5af6c30%3frik%3dHCY3TIa8ldDo%252bA%26riu%3dhttp%253a%252f%252fwallpapercave.com%252fwp%252fwp1945933.jpg%26ehk%3dxkiKr3gqZjl80tKK%252f6z8pn97CHXrdEwqIV9WqfFaHZg%253d%26risl%3d%26pid%3dImgRaw%26r%3d0&exph=4320&expw=2916&q=movie+posters+hd+%5c&simid=608056164966552635&FORM=IRPRST&ck=C9FDDF1DB8BD80A9AEF22DA3CED02546&selectedIndex=3&itb=0';">
+                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#141414] to-transparent"></div>
+                 <div class="absolute bottom-8 left-8">
+                     <h3 id="modal-title" class="text-white text-4xl font-bold">Movie Title</h3>
+                     <div class="flex space-x-3 mt-4">
+                        <button id="modal-play-btn" class="flex items-center justify-center bg-white text-black font-bold rounded-md px-6 py-2 text-lg hover:bg-gray-200 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-2">
+                                <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.647c1.295.742 1.295 2.545 0 3.286L7.279 20.99c-1.25.717-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                            </svg>
+                            Play
+                        </button>
+                    </div>
+                 </div>
+            </div>
+            <div class="p-8">
+                <p id="modal-description" class="text-white">Detailed movie description goes here.</p>
+                <div class="mt-4 text-gray-400 text-sm">
+                    <p><strong>Genre:</strong> <span id="modal-genre">Action, Adventure</span></p>
+                    <p><strong>Rating:</strong> <span id="modal-rating">8.5/10</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DATA ---
+            const heroMovie = {
+                id: 0,
+                title: 'Astral Odyssey',
+                genre: 'Sci-Fi, Adventure',
+                rating: '9.8',
+                description: 'A lone astronaut on a multi-generational mission to a distant star system confronts the vast loneliness of space and a mysterious cosmic phenomenon that challenges her perception of reality.',
+                image: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80',
+                poster: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80'
+            };
+
+            const movieData = [
+                {
+                    category: 'Trending Now',
+                    movies: [
+                        { id: 1, title: 'Cybernetic Revolt', genre: 'Sci-Fi', rating: '9.2', description: 'In a future ruled by AI, a small group of rebels fight back to reclaim humanity.', image: 'https://tse4.mm.bing.net/th/id/OIP.wwI9RdyGby4Qq0fOtrmx3gHaKj?rs=1&pid=ImgDetMain&o=7&rm=3' },
+                        { id: 2, title: 'The Last Kingdom', genre: 'History', rating: '8.8', description: 'A historical drama about the birth of England, following a Saxon born lord raised by Vikings.', image: 'https://i.imgur.com/vC4YF2s.jpg' },
+                        { id: 3, title: 'Ocean\'s Whisper', genre: 'Documentary', rating: '9.5', description: 'Explore the deep blue and its magnificent creatures, revealing the secrets of the ocean.', image: 'https://i.imgur.com/L7mS2aU.jpg' },
+                        { id: 4, title: 'Midnight City', genre: 'Noir', rating: '8.1', description: 'A grizzled detective uncovers a deep-rooted conspiracy in a rain-soaked, perpetually dark city.', image: 'https://i.imgur.com/sYv5x3c.jpg' },
+                        { id: 5, title: 'The Baker\'s Dozen', genre: 'Comedy', rating: '7.9', description: 'A high-stakes baking competition goes hilariously wrong when an amateur is mistaken for a pro.', image: 'https://i.imgur.com/rX3P2aD.jpg' },
+                        { id: 6, title: 'Path of the Samurai', genre: 'Action', rating: '8.9', description: 'A disgraced ronin seeks revenge and redemption for his fallen master in feudal Japan.', image: 'https://i.imgur.com/yN9pX1E.jpg' },
+                        { id: 7, title: 'Echoes of Time', genre: 'Thriller', rating: '8.5', description: 'A scientist discovers a way to hear the past, but some secrets are best left buried.', image: 'https://i.imgur.com/sZ4T3fG.jpg' },
+                    ]
+                },
+                {
+                    category: 'Top Picks For You',
+                    movies: [
+                        { id: 8, title: 'Mountain\'s Peak', genre: 'Adventure', rating: '8.7', description: 'A team of climbers attempts to conquer an unforgiving peak against all odds.', image: 'https://i.imgur.com/qW9nJ6d.jpg' },
+                        { id: 9, title: 'The Glass House', genre: 'Mystery', rating: '8.3', description: 'A family moves into a stunning modern home, only to find it holds a dark and terrifying history.', image: 'https://i.imgur.com/hK8vJ7t.jpg' },
+                        { id: 10, title: 'Jungle Quest', genre: 'Family', rating: '7.5', description: 'Two adventurous kids get lost in the Amazon rainforest and must rely on their wits to survive.', image: 'https://i.imgur.com/pX5cT6b.jpg' },
+                        { id: 11, title: 'Code Red', genre: 'Action', rating: '8.0', description: 'An elite special forces squad must race against time to stop a global cyberattack.', image: 'https://i.imgur.com/eO8vR9p.jpg' },
+                        { id: 12, title: 'Love in Paris', genre: 'Romance', rating: '8.2', description: 'An aspiring artist and a cynical writer unexpectedly find love in the magical city of lights.', image: 'https://i.imgur.com/aZ7sX3q.jpg' },
+                        { id: 13, title: 'The Final Gambit', genre: 'Drama', rating: '9.1', description: 'A young chess prodigy from a humble background challenges a world champion in a high-stakes match.', image: 'https://i.imgur.com/bV6wF8c.jpg' },
+                        { id: 14, title: 'Wizards of Old', genre: 'Fantasy', rating: '8.6', description: 'In a land of myth and magic, a young, untrained wizard must fulfill his destiny and defeat a dark lord.', image: 'https://i.imgur.com/tS9vG0h.jpg' },
+                    ]
+                }
+            ];
+
+            // --- DOM Elements ---
+            const mainNav = document.getElementById('main-nav');
+            const heroImage = document.getElementById('hero-image');
+            const heroTitle = document.getElementById('hero-title');
+            const heroDescription = document.getElementById('hero-description');
+            const heroPlayBtn = document.getElementById('hero-play-btn');
+            const heroInfoBtn = document.getElementById('hero-info-btn');
+
+            const movieRowsContainer = document.getElementById('movie-rows-container');
+            const modal = document.getElementById('movie-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalPlayBtn = document.getElementById('modal-play-btn');
+            
+            // --- Functions ---
+            
+            // Function to set up the Hero Section
+            function setupHero() {
+                heroImage.src = heroMovie.image;
+                heroImage.alt = heroMovie.title;
+                heroTitle.textContent = heroMovie.title;
+                heroDescription.textContent = heroMovie.description;
+            }
+
+            // Function to create a single movie card
+            function createMovieCard(movie) {
+                const card = document.createElement('div');
+                card.className = 'flex-shrink-0 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-1/7 group relative rounded-md overflow-hidden cursor-pointer transform hover:scale-105 hover:z-20 transition-transform duration-300';
+                card.innerHTML = `<img src="${movie.image}" alt="${movie.title}" class="w-full h-auto object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x600/141414/FFFFFF?text=Error';">`;
+                
+                card.addEventListener('click', () => openModal(movie));
+                return card;
+            }
+
+            // Function to create a movie row/carousel
+            function createMovieRow({ category, movies }) {
+                const rowWrapper = document.createElement('div');
+                rowWrapper.className = 'relative';
+
+                const rowTitle = document.createElement('h3');
+                rowTitle.className = 'text-white text-xl md:text-2xl font-bold mb-4';
+                rowTitle.textContent = category;
+
+                const moviesContainer = document.createElement('div');
+                moviesContainer.className = 'flex space-x-2 md:space-x-4 overflow-x-scroll no-scrollbar py-2';
+                
+                movies.forEach(movie => {
+                    moviesContainer.appendChild(createMovieCard(movie));
+                });
+                
+                const scrollLeftBtn = document.createElement('button');
+                scrollLeftBtn.className = 'absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-30 opacity-0 group-hover:opacity-100 transition-opacity hidden md:block';
+                scrollLeftBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>`;
+                
+                const scrollRightBtn = document.createElement('button');
+                scrollRightBtn.className = 'absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-30 opacity-0 group-hover:opacity-100 transition-opacity hidden md:block';
+                scrollRightBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>`;
+
+                scrollLeftBtn.addEventListener('click', () => {
+                    moviesContainer.scrollBy({ left: -window.innerWidth * 0.8, behavior: 'smooth' });
+                });
+                scrollRightBtn.addEventListener('click', () => {
+                    moviesContainer.scrollBy({ left: window.innerWidth * 0.8, behavior: 'smooth' });
+                });
+                
+                const rowContainer = document.createElement('div');
+                rowContainer.className = 'group';
+                rowContainer.appendChild(rowTitle);
+                rowWrapper.appendChild(moviesContainer);
+                rowWrapper.appendChild(scrollLeftBtn);
+                rowWrapper.appendChild(scrollRightBtn);
+                rowContainer.appendChild(rowWrapper);
+
+                return rowContainer;
+            }
+
+            // Function to populate all movie rows
+            function populateMovies() {
+                movieData.forEach(categoryData => {
+                    movieRowsContainer.appendChild(createMovieRow(categoryData));
+                });
+            }
+
+            // Function to handle header background on scroll
+            function handleScroll() {
+                if (window.scrollY > 50) {
+                    mainNav.classList.add('bg-[#141414]');
+                } else {
+                    mainNav.classList.remove('bg-[#141414]');
+                }
+            }
+            
+            let currentMovieInModal = null;
+
+            // Function to open the modal with movie details
+            function openModal(movie) {
+                currentMovieInModal = movie;
+                const modalImageSrc = movie.poster || movie.image.replace('400x600', '1280x720');
+                document.getElementById('modal-image').src = modalImageSrc;
+                document.getElementById('modal-title').textContent = movie.title;
+                document.getElementById('modal-description').textContent = movie.description;
+                document.getElementById('modal-genre').textContent = movie.genre;
+                document.getElementById('modal-rating').textContent = movie.rating + '/10';
+                
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                modalContent.classList.remove('modal-leave');
+                modalContent.classList.add('modal-enter');
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modalContent.classList.remove('modal-enter');
+                modalContent.classList.add('modal-leave');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                    currentMovieInModal = null;
+                }, 300); // Match animation duration
+            }
+
+            // Custom alert box
+            function showCustomAlert(message) {
+                // Remove existing alert if any
+                const existingAlert = document.getElementById('custom-alert');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+
+                // Create alert element
+                const alertBox = document.createElement('div');
+                alertBox.id = 'custom-alert';
+                alertBox.className = 'fixed top-5 right-5 bg-white text-black p-4 rounded-lg shadow-lg z-[100] transform translate-x-full transition-transform duration-500 ease-in-out';
+                alertBox.textContent = message;
+                document.body.appendChild(alertBox);
+
+                // Animate in
+                setTimeout(() => {
+                    alertBox.classList.remove('translate-x-full');
+                }, 10);
+                
+                // Animate out and remove
+                setTimeout(() => {
+                    alertBox.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 500);
+                }, 3000);
+            }
+
+
+            // --- Event Listeners ---
+            window.addEventListener('scroll', handleScroll);
+            
+            // Button functionality
+            heroPlayBtn.addEventListener('click', () => {
+                console.log(`Playing: ${heroMovie.title}`);
+                showCustomAlert(`Playing: ${heroMovie.title}`);
+            });
+            heroInfoBtn.addEventListener('click', () => openModal(heroMovie));
+            
+            modalPlayBtn.addEventListener('click', () => {
+                 if (currentMovieInModal) {
+                    console.log(`Playing from modal: ${currentMovieInModal.title}`);
+                    showCustomAlert(`Playing: ${currentMovieInModal.title}`);
+                }
+            });
+
+            // Modal closing listeners
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+            
+            // --- Initial Load ---
+            setupHero();
+            populateMovies();
+        });
+    </script>
+</body>
+</html>
